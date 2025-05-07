@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${quiz.id} != null ? 'Modifier Quiz' : 'Créer Quiz'">Formulaire Quiz</title>
+</head>
+<body>
+<h1 th:text="${quiz.id} != null ? 'Modifier Quiz' : 'Créer Quiz'"></h1>
+
+<form th:object="${quiz}"
+      th:action="${quiz.id} != null
+                      ? @{/admin/quiz/{id}(id=${quiz.id})}
+                      : @{/admin/quiz}"
+      method="post">
+    <input type="hidden" th:if="${quiz.id} != null" th:field="*{id}"/>
+
+    <div>
+        <label for="titre">Titre :</label>
+        <input id="titre" type="text" th:field="*{titre}" required/>
+    </div>
+    <div>
+        <label for="description">Description :</label>
+        <textarea id="description" th:field="*{description}"></textarea>
+    </div>
+    <div>
+        <label for="nbQuestions">Nombre de questions :</label>
+        <input id="nbQuestions" type="number" th:field="*{nbQuestions}" min="1" required/>
+    </div>
+    <div>
+        <label for="duree">Durée (min) :</label>
+        <input id="duree" type="number" th:field="*{duree}" min="1" required/>
+    </div>
+    <div>
+        <label for="dateInscription">Date :</label>
+        <input id="dateInscription" type="date" th:field="*{dateInscription}" required/>
+    </div>
+
+    <button type="submit"
+            th:text="${quiz.id} != null ? 'Mettre à jour' : 'Créer'">
+        Valider
+    </button>
+</form>
+
+<p><a th:href="@{/quiz}">← Retour à la liste</a></p>
+</body>
+</html>

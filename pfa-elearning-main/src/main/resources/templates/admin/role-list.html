@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Liste des rôles</title>
+</head>
+<body>
+<h1>Liste des rôles</h1>
+<p><a th:href="@{/admin/roles/nouveau}">Créer un rôle</a></p>
+
+<table>
+    <thead>
+    <tr><th>ID</th><th>Nom</th><th>Description</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="role : ${roles}">
+        <td th:text="${role.id}">1</td>
+        <td th:text="${role.nom}">ROLE_USER</td>
+        <td th:text="${role.description}">Utilisateur standard</td>
+        <td>
+            <!-- Lien « Modifier » -->
+            <a th:href="@{/admin/roles/{id}/modifier(id=${role.id})}">Modifier</a>
+
+            <!-- Formulaire « Supprimer » avec confirm() JS pur -->
+            <form th:action="@{/admin/roles/{id}/supprimer(id=${role.id})}"
+                  method="post" style="display:inline">
+                <button type="submit"
+                        onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');">
+                    Supprimer
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

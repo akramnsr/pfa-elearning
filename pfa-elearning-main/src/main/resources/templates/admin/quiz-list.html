@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Liste des quiz</title>
+</head>
+<body>
+<h1>Liste des quiz</h1>
+<a th:href="@{/admin/quiz/nouveau}">Créer un nouveau quiz</a>
+<table>
+    <thead>
+    <tr><th>ID</th><th>Titre</th><th>Description</th><th>Actions</th></tr>
+    </thead>
+    <tbody th:each="quiz : ${quizzes}">
+    <tr>
+        <td th:text="${quiz.id}">1</td>
+        <td th:text="${quiz.titre}">Titre</td>
+        <td th:text="${quiz.description}">Desc</td>
+        <td>
+            <a th:href="@{/admin/quiz/{id}/modifier(id=${quiz.id})}">Modifier</a>
+            |
+            <a th:href="@{/admin/quiz/{id}/supprimer(id=${quiz.id})}"
+               onclick="return confirm('Vraiment supprimer ?');">
+                🗑 Supprimer
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

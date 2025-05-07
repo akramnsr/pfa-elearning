@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${rapportEtu.id} != null ? 'Modifier Rapport' : 'Créer Rapport'">
+        Rapport étudiant
+    </title>
+</head>
+<body>
+<h1 th:text="${rapportEtu.id} != null ? 'Modifier Rapport' : 'Créer Rapport'">
+    Rapport étudiant
+</h1>
+
+<form th:object="${rapportEtu}"
+      th:action="${rapportEtu.id} == null
+          ? @{/admin/rapports-etu}
+          : @{/admin/rapports-etu/{id}(id=${rapportEtu.id})}"
+      method="post">
+
+    <!-- Contenu du rapport -->
+    <div>
+        <label for="contenu">Contenu :</label>
+        <textarea id="contenu" th:field="*{contenu}" required></textarea>
+    </div>
+
+    <!-- Date de soumission -->
+    <div>
+        <label for="dateSoumission">Date de soumission :</label>
+        <input
+                id="dateSoumission"
+                type="date"
+                th:field="*{dateSoumission}"
+                required />
+    </div>
+
+    <!-- Commentaire du formateur -->
+    <div>
+        <label for="commentaireFormateur">Commentaire formateur :</label>
+        <textarea
+                id="commentaireFormateur"
+                th:field="*{commentaireFormateur}"></textarea>
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit"
+            th:text="${rapportEtu.id} != null ? 'Mettre à jour' : 'Créer'">
+        Valider
+    </button>
+</form>
+
+<p><a th:href="@{/admin/rapports-etu}">← Retour à la liste</a></p>
+</body>
+</html>

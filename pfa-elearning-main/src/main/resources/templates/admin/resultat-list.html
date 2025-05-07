@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Liste des résultats</title>
+</head>
+<body>
+<h1>Résultats</h1>
+
+<p>
+  <a th:href="@{/admin/resultats/nouveau}"> Nouveau résultat</a>
+</p>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Score</th>
+    <th>Date de passage</th>
+    <th>Statut</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="r : ${resultats}">
+    <td th:text="${r.id}">1</td>
+    <td th:text="${r.score}">12.5</td>
+    <td th:text="${#dates.format(r.datePassage, 'yyyy-MM-dd HH:mm')}">2025-05-01 14:30</td>
+    <td th:text="${r.statut}">Réussi</td>
+    <td>
+      <!-- Édition via GET /resultats/{id}/modifier -->
+      <a th:href="@{/admin/resultats/{id}/modifier(id=${r.id})}"> Éditer</a>
+      &nbsp;
+
+      <!-- Suppression via POST /resultats/{id}/supprimer -->
+      <form th:action="@{/admin/resultats/{id}/supprimer(id=${r.id})}"
+            method="post"
+            style="display:inline"
+            th:onsubmit="|return confirm('Supprimer le résultat #'+${r.id}+' ?');|">
+        <button type="submit">🗑️ Supprimer</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

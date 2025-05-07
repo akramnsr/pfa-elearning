@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Formations</title>
+</head>
+<body th:inline="javascript">
+<h1>Formations</h1>
+<a th:href="@{/admin/formations/nouveau}"> Nouvelle formation</a>
+<ul>
+    <li th:each="f : ${formations}">
+        <span th:text="${f.titre}">Titre</span>
+        [<a th:href="@{/admin/formations/{id}/modifier(id=${f.id})}">Modifier</a>]
+        <!-- FORMULAIRE de suppression -->
+        <form th:action="@{/admin/formations/{id}/supprimer(id=${f.id})}"
+              method="post" style="display:inline">
+            <button type="submit"
+                    th:attr="onclick=|return confirm('Supprimer la formation « ${f.titre} » ?');|">
+                Supprimer
+            </button>
+        </form>
+
+    </li>
+</ul>
+</body>
+</html>

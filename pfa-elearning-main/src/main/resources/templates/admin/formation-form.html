@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${formation.id} != null ? 'Modifier Formation' : 'Créer Formation'">
+        Formation
+    </title>
+</head>
+<body>
+<h1 th:text="${formation.id} != null ? 'Modifier Formation' : 'Créer Formation'"></h1>
+
+<form th:action="@{/admin/formations}"
+      th:object="${formation}"
+      method="post">
+    <!-- Si on est en modification, on inclut l'id -->
+    <input type="hidden"
+           th:if="${formation.id} != null"
+           th:field="*{id}" />
+
+    <div>
+        <label for="titre">Titre :</label>
+        <input id="titre"
+               type="text"
+               th:field="*{titre}"
+               required/>
+    </div>
+
+    <div>
+        <label for="description">Description :</label>
+        <textarea id="description"
+                  th:field="*{description}"></textarea>
+    </div>
+
+    <div>
+        <label for="dureeHeures">Durée (heures) :</label>
+        <input id="dureeHeures"
+               type="number"
+               th:field="*{dureeHeures}"
+               min="1"
+               required/>
+    </div>
+
+    <button type="submit"
+            th:text="${formation.id} != null ? 'Mettre à jour' : 'Créer'">
+        Valider
+    </button>
+</form>
+
+<p><a th:href="@{/admin/formations}">← Retour à la liste</a></p>
+</body>
+</html>

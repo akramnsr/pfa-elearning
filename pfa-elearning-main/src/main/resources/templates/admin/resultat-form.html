@@ -1,0 +1,24 @@
+<form th:action="@{/admin/resultats}"
+      th:object="${resultat}"
+      method="post">
+
+  <input type="hidden" th:field="*{id}" />
+
+  <div>
+    <label for="score">Score :</label>
+    <input id="score" type="number" th:field="*{score}" min="0" max="20" required/>
+  </div>
+  <div>
+    <label for="datePassage">Date de passage :</label>
+    <input id="datePassage"
+           type="datetime-local"
+           th:field="*{datePassage}"
+           required/>
+  </div>
+  <div>
+    <label for="statut">Statut :</label>
+    <input id="statut" type="text" th:field="*{statut}" required/>
+  </div>
+  <!-- etc. -->
+  <button type="submit">Enregistrer</button>
+</form>

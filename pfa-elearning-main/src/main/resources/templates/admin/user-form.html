@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${user.id} == null ? 'Créer Utilisateur' : 'Modifier Utilisateur'">Utilisateur</title>
+</head>
+<body>
+<h1 th:text="${user.id} == null ? 'Créer Utilisateur' : 'Modifier Utilisateur'"></h1>
+
+<form th:action="@{/admin/users}"
+      th:object="${user}"
+      method="post">
+    <div>
+        <label>Nom</label>
+        <input type="text" th:field="*{nom}" required/>
+    </div>
+    <div>
+        <label>Prénom</label>
+        <input type="text" th:field="*{prenom}" required/>
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" th:field="*{email}" required/>
+    </div>
+    <div>
+        <label>Mot de passe</label>
+        <input type="password"
+               th:field="*{motDePasse}"
+               th:attr="required=${user.id == null}"/>
+    </div>
+    <button type="submit"
+            th:text="${user.id} == null ? 'Créer' : 'Enregistrer'">Valider</button>
+</form>
+
+<p><a th:href="@{/admin/users}">← Retour à la liste</a></p>
+</body>
+</html>

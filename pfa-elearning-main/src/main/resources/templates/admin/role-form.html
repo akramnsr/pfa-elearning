@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${role.id} != null ? 'Modifier le rôle' : 'Créer un nouveau rôle'">
+        Formulaire rôle
+    </title>
+</head>
+<body>
+<h1 th:text="${role.id} != null ? 'Modifier le rôle' : 'Créer un nouveau rôle'"></h1>
+
+<form th:object="${role}"
+      th:action="${role.id} != null
+                     ? @{/admin/roles/{id}(id=${role.id})}
+                     : @{/admin/roles}"
+      method="post">
+
+    <div>
+        <label for="nom">Nom :</label>
+        <input id="nom" type="text" th:field="*{nom}" required/>
+    </div>
+
+    <div>
+        <label for="description">Description :</label>
+        <textarea id="description" th:field="*{description}" required></textarea>
+    </div>
+
+    <button type="submit"
+            th:text="${role.id} != null ? 'Mettre à jour' : 'Créer'">
+        Valider
+    </button>
+</form>
+
+<p><a th:href="@{/admin/roles}">← Retour à la liste des rôles</a></p>
+</body>
+</html>

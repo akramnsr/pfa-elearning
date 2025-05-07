@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Liste des rapports</title>
+</head>
+<body>
+<h1>Rapports étudiants</h1>
+
+<p>
+  <a th:href="@{/admin/rapports-etu/new}">➕ Créer un nouveau rapport</a>
+</p>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th><th>Contenu</th><th>Date</th><th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="r : ${rapports}">
+    <td th:text="${r.id}">1</td>
+    <td th:text="${r.contenu}">…</td>
+    <td th:text="${#dates.format(r.dateSoumission, 'yyyy-MM-dd HH:mm')}">…</td>
+    <td>
+      <a th:href="@{/admin/rapports-etu/{id}/edit(id=${r.id})}">✏️ Éditer</a>
+      <!-- FORMULAIRE de suppression -->
+      <form th:action="@{/admin/rapports-etu/{id}/supprimer(id=${r.id})}"
+            method="post" style="display:inline">
+        <button type="submit"
+                th:attr="onclick=|return confirm('Supprimer le rapport « ${r.id} » ?');|">
+          Supprimer
+        </button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
