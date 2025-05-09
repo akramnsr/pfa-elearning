@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="${user.id} == null ? 'Créer Utilisateur' : 'Modifier Utilisateur'">Utilisateur</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1 th:text="${user.id} == null ? 'Créer Utilisateur' : 'Modifier Utilisateur'"></h1>
 
@@ -38,9 +41,10 @@
     </div>
 
     <button type="submit"
-            th:text="${user.id} == null ? 'Créer' : 'Enregistrer'">Valider</button>
+            th:text="${user.id} == null ? 'Créer' : 'Enregistrer'" class="btn btn-primary">Valider</button>
 </form>
 
-<p><a th:href="@{/admin/users}">← Retour à la liste</a></p>
+<p><a th:href="@{/admin/users}" class="btn btn-primary">Retour à la liste</a></p>
+</div>
 </body>
 </html>

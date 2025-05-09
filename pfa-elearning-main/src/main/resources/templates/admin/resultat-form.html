@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8"/>
   <title th:text="${resultat.id} == 0 ? 'Nouveau résultat' : 'Modifier résultat'">Formulaire Résultat</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
+
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1 th:text="${resultat.id} == 0 ? 'Nouveau résultat' : 'Modifier résultat'"></h1>
 
@@ -52,9 +56,10 @@
            required/>
   </div>
 
-  <button type="submit">Enregistrer</button>
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
 </form>
 
-<p><a th:href="@{/admin/resultats}">← Retour à la liste</a></p>
+<p><a th:href="@{/admin/resultats}" class="btn btn-primary">Retour à la liste</a></p>
+</div>
 </body>
 </html>

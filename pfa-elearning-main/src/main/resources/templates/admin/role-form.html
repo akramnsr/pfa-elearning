@@ -5,9 +5,12 @@
     <title th:text="${role.id} != null ? 'Modifier le rôle' : 'Créer un nouveau rôle'">
         Formulaire rôle
     </title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1 th:text="${role.id} != null ? 'Modifier le rôle' : 'Créer un nouveau rôle'"></h1>
 
@@ -19,20 +22,21 @@
 
     <div>
         <label for="nom">Nom :</label>
-        <input id="nom" type="text" th:field="*{nom}" required/>
+        <input id="nom" type="text" th:field="${role.nom}" required/>
     </div>
 
     <div>
         <label for="description">Description :</label>
-        <textarea id="description" th:field="*{description}" required></textarea>
+        <textarea id="description" th:field="${role.description}" required></textarea>
     </div>
 
     <button type="submit"
-            th:text="${role.id} != null ? 'Mettre à jour' : 'Créer'">
+            th:text="${role.id} != null ? 'Mettre à jour' : 'Créer'" class="btn btn-primary">
         Valider
     </button>
 </form>
 
-<p><a th:href="@{/admin/roles}">← Retour à la liste des rôles</a></p>
+<p><a th:href="@{/admin/roles}" class="btn btn-primary">Retour à la liste des rôles</a></p>
+</div>
 </body>
 </html>

@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8"/>
   <title>Liste des utilisateurs</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1>Liste des utilisateurs</h1>
 
-<p><a th:href="@{/admin/users/nouveau}">Créer un nouvel utilisateur</a></p>
+<p><a th:href="@{/admin/users/nouveau}" class="btn btn-primary">Créer un nouveau utilisateur</a></p>
 
-<table border="1">
+<table class="table">
   <thead>
   <tr>
     <th>ID</th>
@@ -23,20 +26,21 @@
   </thead>
   <tbody>
   <tr th:each="u : ${users}">
-    <td th:text="${u.id}">1</td>
-    <td th:text="${u.nom}">Dupont</td>
-    <td th:text="${u.prenom}">Jean</td>
-    <td th:text="${u.email}">jean@example.com</td>
+    <td th:text="${u.id}"></td>
+    <td th:text="${u.nom}"></td>
+    <td th:text="${u.prenom}"></td>
+    <td th:text="${u.email}"></td>
     <td>
-      <a th:href="@{'/admin/users/' + ${u.id} + '/modifier'}">Modifier</a> |
+      <a th:href="@{'/admin/users/' + ${u.id} + '/modifier'}" class="btn-edit">Modifier</a>
       <form th:action="@{'/admin/users/' + ${u.id} + '/supprimer'}"
             method="post" style="display:inline"
             onsubmit="return confirm('Supprimer cet utilisateur ?');">
-        <button type="submit">Supprimer</button>
+        <button type="submit"  class="btn-delete">Supprimer</button>
       </form>
     </td>
   </tr>
   </tbody>
 </table>
+</div>
 </body>
 </html>

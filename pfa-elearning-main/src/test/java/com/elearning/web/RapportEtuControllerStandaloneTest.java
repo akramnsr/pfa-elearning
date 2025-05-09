@@ -58,7 +58,7 @@ class RapportEtuControllerStandaloneTest {
     void getOneReturnsDto() throws Exception {
         RapportEtuDto dto = new RapportEtuDto(2L, "Un autre commentaire");
         RapportEtu entity = new RapportEtu();
-        entity.setId(2);
+        entity.setId(2L);
 
         given(service.findById(2L)).willReturn(Optional.of(entity));
         given(mapper.toDto(entity)).willReturn(dto);

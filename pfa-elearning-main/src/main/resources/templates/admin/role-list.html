@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Liste des rôles</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1>Liste des rôles</h1>
-<p><a th:href="@{/admin/roles/nouveau}">Créer un rôle</a></p>
+<p><a th:href="@{/admin/roles/nouveau}" class="btn btn-primary">Créer un rôle</a></p>
 
-<table>
+<table class="table">
     <thead>
     <tr><th>ID</th><th>Nom</th><th>Description</th><th>Actions</th></tr>
     </thead>
     <tbody>
     <tr th:each="role : ${roles}">
-        <td th:text="${role.id}">1</td>
-        <td th:text="${role.nom}">ROLE_USER</td>
-        <td th:text="${role.description}">Utilisateur standard</td>
+        <td th:text="${role.id}"></td>
+        <td th:text="${role.nom}"></td>
+        <td th:text="${role.description}"></td>
         <td>
             <!-- Lien « Modifier » -->
-            <a th:href="@{/admin/roles/{id}/modifier(id=${role.id})}">Modifier</a>
+            <a th:href="@{/admin/roles/{id}/modifier(id=${role.id})}" class="btn-edit">Modifier</a>
 
             <!-- Formulaire « Supprimer » avec confirm() JS pur -->
             <form th:action="@{/admin/roles/{id}/supprimer(id=${role.id})}"
                   method="post" style="display:inline">
                 <button type="submit"
-                        onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');">
+                        onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');"  class="btn-delete">
                     Supprimer
                 </button>
             </form>
@@ -35,5 +38,6 @@
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>

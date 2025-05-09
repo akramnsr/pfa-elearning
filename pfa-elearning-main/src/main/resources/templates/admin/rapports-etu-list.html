@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8"/>
   <title>Liste des rapports</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1>Rapports étudiants</h1>
 
-<p><a th:href="@{/admin/rapports-etu/new}">➕ Créer un nouveau rapport</a></p>
+<p><a th:href="@{/admin/rapports-etu/new}" class="btn btn-primary">Créer un nouveau rapport</a></p>
 
-<table border="1">
+<table class="table" >
   <thead>
   <tr>
     <th>ID</th>
@@ -23,22 +26,23 @@
   </thead>
   <tbody>
   <tr th:each="r : ${rapports}">
-    <td th:text="${r.id}">1</td>
-    <td th:text="${r.etudiant.nom + ' ' + r.etudiant.prenom}">Jean Dupont</td>
-    <td th:text="${r.contenu}">…</td>
-    <td th:text="${#dates.format(r.dateSoumission, 'yyyy-MM-dd')}">…</td>
+    <td th:text="${r.id}"></td>
+    <td th:text="${r.etudiant.nom + ' ' + r.etudiant.prenom}"></td>
+    <td th:text="${r.contenu}"></td>
+    <td th:text="${#dates.format(r.dateSoumission, 'yyyy-MM-dd')}"></td>
     <td>
-      <a th:href="@{/admin/rapports-etu/{id}/edit(id=${r.id})}">✏️ Éditer</a>
+      <a th:href="@{/admin/rapports-etu/{id}/edit(id=${r.id})}" class="btn-edit">Éditer</a>
       <form th:action="@{/admin/rapports-etu/{id}/supprimer(id=${r.id})}"
             method="post" style="display:inline">
         <button type="submit"
-                onclick="return confirm('Supprimer le rapport « ${r.id} » ?');">
-          🗑 Supprimer
+                onclick="return confirm('Supprimer le rapport « ${r.id} » ?');"  class="btn-delete">
+          Supprimer
         </button>
       </form>
     </td>
   </tr>
   </tbody>
 </table>
+</div>
 </body>
 </html>

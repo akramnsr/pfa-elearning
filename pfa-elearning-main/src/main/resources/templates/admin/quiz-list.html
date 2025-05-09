@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Liste des quiz</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+
 </head>
 <body>
+
 <div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
 
 <h1>Liste des quiz</h1>
-<a th:href="@{/admin/quiz/nouveau}">Créer un nouveau quiz</a>
-<table>
+<a th:href="@{/admin/quiz/nouveau}" class="btn btn-primary">Créer un nouveau quiz</a>
+<table class="table">
     <thead>
     <tr><th>ID</th><th>Titre</th><th>Description</th><th>Actions</th></tr>
     </thead>
     <tbody th:each="quiz : ${quizzes}">
     <tr>
-        <td th:text="${quiz.id}">1</td>
-        <td th:text="${quiz.titre}">Titre</td>
-        <td th:text="${quiz.description}">Desc</td>
+        <td th:text="${quiz.id}"></td>
+        <td th:text="${quiz.titre}"></td>
+        <td th:text="${quiz.description}"></td>
         <td>
-            <a th:href="@{/admin/quiz/{id}/modifier(id=${quiz.id})}">Modifier</a>
-            |
+            <a th:href="@{/admin/quiz/{id}/modifier(id=${quiz.id})}" class="btn-edit">Modifier</a>
             <a th:href="@{/admin/quiz/{id}/supprimer(id=${quiz.id})}"
-               onclick="return confirm('Vraiment supprimer ?');">
-                🗑 Supprimer
+               onclick="return confirm('Vraiment supprimer ?');"  class="btn-delete">Supprimer
             </a>
         </td>
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>

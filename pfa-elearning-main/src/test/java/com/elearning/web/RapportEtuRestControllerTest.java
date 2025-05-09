@@ -43,7 +43,7 @@ class RapportEtuRestControllerTest {
     void listReturnsPage() throws Exception {
         RapportEtuDto dto = new RapportEtuDto(10L, "Rapport #10");
         RapportEtu entity = new RapportEtu();
-        entity.setId(10);
+        entity.setId(10L);
 
         Page<RapportEtu> page = new PageImpl<>(
                 List.of(entity),
@@ -67,7 +67,7 @@ class RapportEtuRestControllerTest {
     void getOneReturnsDto() throws Exception {
         RapportEtuDto dto = new RapportEtuDto(7L, "Rapport #7");
         RapportEtu entity = new RapportEtu();
-        entity.setId(7);
+        entity.setId(7L);
 
         given(service.findById(7L)).willReturn(Optional.of(entity));
         given(mapper.toDto(entity)).willReturn(dto);
