@@ -22,7 +22,6 @@ public class AdminUserMvcController {
     /** LISTE DES UTILISATEURS */
     @GetMapping
     public String list(Model model) {
-        // récupère tout sans pagination
         model.addAttribute("users", service.findAll(Pageable.unpaged()).getContent());
         return "admin/user-list";
     }
@@ -34,27 +33,42 @@ public class AdminUserMvcController {
         return "admin/user-form";
     }
 
-    /** SAUVEGARDE CRÉATION / ÉDITION */
+    /** CRÉATION */
     @PostMapping
-    public String save(
+    public String create(
             @ModelAttribute("user") @Valid User user,
-            BindingResult binding,
-            Model model
+            BindingResult binding
     ) {
         if (binding.hasErrors()) {
-            // on renvoie le formulaire s’il y a des erreurs
             return "admin/user-form";
         }
         service.save(user);
-        // redirige vers la liste pour voir le nouvel utilisateur
         return "redirect:/admin/users";
     }
 
     /** FORMULAIRE D’ÉDITION */
     @GetMapping("/{id}/modifier")
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("user", service.findById(id));
+        User user = service.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable pour l'ID " + id));
+        model.addAttribute("user", user);
         return "admin/user-form";
+    }
+
+    /** MISE À JOUR */
+    @PostMapping("/{id}")
+    public String update(
+            @PathVariable Long id,
+            @ModelAttribute("user") @Valid User user,
+            BindingResult binding
+    ) {
+        if (binding.hasErrors()) {
+            return "admin/user-form";
+        }
+        // s’assurer qu’on met bien à jour l’utilisateur existant
+        user.setId(id);
+        service.save(user);
+        return "redirect:/admin/users";
     }
 
     /** SUPPRESSION */

@@ -1,6 +1,7 @@
 package com.elearning.rest;
 
 import com.elearning.dto.FormationDto;
+import com.elearning.exception.ResourceNotFoundException;
 import com.elearning.mapper.FormationMapper;
 import com.elearning.service.FormationService;
 import org.springframework.data.domain.Page;

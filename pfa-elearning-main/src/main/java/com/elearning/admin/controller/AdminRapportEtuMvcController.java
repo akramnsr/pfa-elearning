@@ -1,7 +1,11 @@
+// src/main/java/com/elearning/admin/controller/AdminRapportEtuMvcController.java
 package com.elearning.admin.controller;
 
 import com.elearning.model.RapportEtu;
+import com.elearning.model.User;
 import com.elearning.repository.RapportEtuRepository;
+import com.elearning.service.UserService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class AdminRapportEtuMvcController {
 
     private final RapportEtuRepository repo;
+    private final UserService userService;
 
-    public AdminRapportEtuMvcController(RapportEtuRepository repo) {
+    public AdminRapportEtuMvcController(RapportEtuRepository repo,
+                                        UserService userService) {
         this.repo = repo;
+        this.userService = userService;
     }
+
 
     // 1. Liste
     @GetMapping
@@ -23,38 +31,53 @@ public class AdminRapportEtuMvcController {
         return "/admin/rapports-etu-list";
     }
 
-    // 2. Formulaire « nouveau »
     @GetMapping("/new")
     public String newForm(Model model) {
         model.addAttribute("rapportEtu", new RapportEtu());
-        return "/admin/rapports-etu-form";
+        model.addAttribute("etudiants",
+                userService.findAll(Pageable.unpaged()).getContent());
+        return "admin/rapports-etu-form";   // plus de slash initial
     }
 
-    // 3. Formulaire « édition »
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
         RapportEtu r = repo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID invalide: " + id));
         model.addAttribute("rapportEtu", r);
-        return "/admin/rapports-etu-form";
+        model.addAttribute("etudiants",
+                userService.findAll(Pageable.unpaged()).getContent());
+        return "admin/rapports-etu-form";
     }
 
-    // 4. Création
+
     @PostMapping
-    public String create(@ModelAttribute RapportEtu rapportEtu) {
+    public String create(@ModelAttribute RapportEtu rapportEtu,
+                         @RequestParam("etudiant.id") Long etudiantId) {
+        User u = userService.findById(etudiantId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Étudiant invalide : " + etudiantId)
+                );
+        rapportEtu.setEtudiant(u);
         repo.save(rapportEtu);
         return "redirect:/admin/rapports-etu";
     }
 
-    // 5. Mise à jour
     @PostMapping("/{id}")
     public String update(@PathVariable Long id,
-                         @ModelAttribute RapportEtu rapportEtu) {
-        rapportEtu.setId(Math.toIntExact(id));
+                         @ModelAttribute RapportEtu rapportEtu,
+                         @RequestParam("etudiant.id") Long etudiantId) {
+        User u = userService.findById(etudiantId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Étudiant invalide : " + etudiantId)
+                );
+        rapportEtu.setId(id);
+        rapportEtu.setEtudiant(u);
         repo.save(rapportEtu);
         return "redirect:/admin/rapports-etu";
     }
-    // Supprime la formation après confirmation
+
+
+    // 6. Suppression
     @PostMapping("/{id}/supprimer")
     public String supprimerRapport(@PathVariable Long id) {
         repo.deleteById(id);

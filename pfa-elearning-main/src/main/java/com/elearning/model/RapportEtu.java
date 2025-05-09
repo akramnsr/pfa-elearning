@@ -1,3 +1,4 @@
+// src/main/java/com/elearning/model/RapportEtu.java
 package com.elearning.model;
 
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ public class RapportEtu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String contenu;
 
@@ -19,6 +20,10 @@ public class RapportEtu {
     private Date dateSoumission;
 
     private String commentaireFormateur;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "etudiant_id")
+    private User etudiant;
 
     public RapportEtu() {}
 
@@ -28,47 +33,20 @@ public class RapportEtu {
         this.commentaireFormateur = commentaireFormateur;
     }
 
-    public int getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getContenu() { return contenu; }
+    public void setContenu(String contenu) { this.contenu = contenu; }
 
-    public String getContenu() {
-        return contenu;
-    }
+    public Date getDateSoumission() { return dateSoumission; }
+    public void setDateSoumission(Date dateSoumission) { this.dateSoumission = dateSoumission; }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
-    }
-
-    public Date getDateSoumission() {
-        return dateSoumission;
-    }
-
-    public void setDateSoumission(Date dateSoumission) {
-        this.dateSoumission = dateSoumission;
-    }
-
-    public String getCommentaireFormateur() {
-        return commentaireFormateur;
-    }
-
+    public String getCommentaireFormateur() { return commentaireFormateur; }
     public void setCommentaireFormateur(String commentaireFormateur) {
         this.commentaireFormateur = commentaireFormateur;
     }
 
-    public void ajouterContenu(String contenu) {
-        this.contenu = contenu;
-    }
-
-    public void modifierRapport(String nouveauContenu) {
-        this.contenu = nouveauContenu;
-    }
-
-    public void ajouterCommentaire(String commentaire) {
-        this.commentaireFormateur = commentaire;
-    }
+    public User getEtudiant() { return etudiant; }
+    public void setEtudiant(User etudiant) { this.etudiant = etudiant; }
 }

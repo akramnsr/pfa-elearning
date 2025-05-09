@@ -1,8 +1,9 @@
 package com.elearning.admin.controller;
 
 import com.elearning.model.Resultat;
+import com.elearning.model.User;
 import com.elearning.service.ResultatService;
-import org.springframework.data.domain.PageRequest;
+import com.elearning.service.UserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,17 +15,19 @@ import java.util.List;
 @RequestMapping("/admin/resultats")
 public class AdminResultatMvcController {
 
-    private final ResultatService service;
+    private final ResultatService resultatService;
+    private final UserService userService;
 
-    public AdminResultatMvcController(ResultatService service) {
-        this.service = service;
+    public AdminResultatMvcController(ResultatService resultatService,
+                                      UserService userService) {
+        this.resultatService = resultatService;
+        this.userService      = userService;
     }
 
     @GetMapping
     public String list(Model model) {
-        // Si vous ne voulez pas gérer la pagination en admin :
-        List<Resultat> results = service.findAll(Pageable.unpaged()).getContent();
-        model.addAttribute("resultats", results);
+        List<Resultat> resultats = resultatService.findAll(Pageable.unpaged()).getContent();
+        model.addAttribute("resultats", resultats);
         return "admin/resultat-list";
     }
 
@@ -32,27 +35,35 @@ public class AdminResultatMvcController {
     @GetMapping("/nouveau")
     public String createForm(Model model) {
         model.addAttribute("resultat", new Resultat());
+        // on passe la liste des étudiants
+        List<User> etudiants = userService.findAll(Pageable.unpaged()).getContent();
+        model.addAttribute("etudiants", etudiants);
         return "admin/resultat-form";
     }
 
     /** Sauvegarde création/édition */
     @PostMapping
     public String save(@ModelAttribute Resultat resultat) {
-        service.save(resultat);
+        resultatService.save(resultat);
         return "redirect:/admin/resultats";
     }
 
     /** Formulaire d’édition */
     @GetMapping("/{id}/modifier")
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("resultat", service.findById(id));
+        Resultat r = resultatService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID invalide: " + id));
+        model.addAttribute("resultat", r);
+        // idem on repasse la liste des étudiants
+        List<User> etudiants = userService.findAll(Pageable.unpaged()).getContent();
+        model.addAttribute("etudiants", etudiants);
         return "admin/resultat-form";
     }
 
     /** Suppression */
     @PostMapping("/{id}/supprimer")
     public String delete(@PathVariable Long id) {
-        service.delete(id);  // ← on appelle delete(id), plus deleteById
+        resultatService.delete(id);
         return "redirect:/admin/resultats";
     }
 }

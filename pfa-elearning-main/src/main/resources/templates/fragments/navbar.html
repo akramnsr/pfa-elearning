@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- ce div ne sera pas rendu, on n’envoie que le fragment -->
+<div th:fragment="navbar">
+    <nav>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/users}">Utilisateurs</a></li>
+            <li><a th:href="@{/admin/formations}">Formations</a></li>
+            <li><a th:href="@{/admin/quiz}">Quiz</a></li>
+            <li><a th:href="@{/admin/rapports-etu}">Rapports étudiants</a></li>
+            <li><a th:href="@{/admin/resultats}">Résultats</a></li>
+            <li><a th:href="@{/admin/roles}">Rôles</a></li>
+        </ul>
+    </nav>
+</div>
+</html>

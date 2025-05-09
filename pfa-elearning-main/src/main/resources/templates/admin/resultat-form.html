@@ -1,13 +1,41 @@
-<form th:action="@{/admin/resultats}"
-      th:object="${resultat}"
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="${resultat.id} == 0 ? 'Nouveau résultat' : 'Modifier résultat'">Formulaire Résultat</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<h1 th:text="${resultat.id} == 0 ? 'Nouveau résultat' : 'Modifier résultat'"></h1>
+
+<form th:object="${resultat}"
+      th:action="@{/admin/resultats}"
       method="post">
 
   <input type="hidden" th:field="*{id}" />
 
+  <!-- Sélection de l'étudiant -->
+  <div>
+    <label for="etudiant">Étudiant :</label>
+    <select id="etudiant" th:field="*{etudiant.id}" required>
+      <option th:each="u : ${etudiants}"
+              th:value="${u.id}"
+              th:text="${u.prenom + ' ' + u.nom}"
+              th:selected="${u.id} == ${resultat.etudiant != null ? resultat.etudiant.id : -1}">
+      </option>
+    </select>
+  </div>
+
   <div>
     <label for="score">Score :</label>
-    <input id="score" type="number" th:field="*{score}" min="0" max="20" required/>
+    <input id="score"
+           type="number"
+           th:field="*{score}"
+           min="0" max="20"
+           required/>
   </div>
+
   <div>
     <label for="datePassage">Date de passage :</label>
     <input id="datePassage"
@@ -15,10 +43,18 @@
            th:field="*{datePassage}"
            required/>
   </div>
+
   <div>
     <label for="statut">Statut :</label>
-    <input id="statut" type="text" th:field="*{statut}" required/>
+    <input id="statut"
+           type="text"
+           th:field="*{statut}"
+           required/>
   </div>
-  <!-- etc. -->
+
   <button type="submit">Enregistrer</button>
 </form>
+
+<p><a th:href="@{/admin/resultats}">← Retour à la liste</a></p>
+</body>
+</html>

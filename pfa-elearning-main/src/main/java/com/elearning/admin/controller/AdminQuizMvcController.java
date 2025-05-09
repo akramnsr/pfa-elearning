@@ -43,12 +43,16 @@ public class AdminQuizMvcController {
         return "redirect:/admin/quiz";
     }
 
-    /** Formulaire d’édition */
     @GetMapping("/{id}/modifier")
     public String showEditForm(@PathVariable Long id, Model model) {
-        model.addAttribute("quiz", service.findById(id));
+        Quiz quiz = service.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Quiz introuvable pour l'ID " + id)
+                );
+        model.addAttribute("quiz", quiz);
         return "admin/quiz-form";
     }
+
 
     /** Sauvegarde édition */
     @PostMapping("/{id}")

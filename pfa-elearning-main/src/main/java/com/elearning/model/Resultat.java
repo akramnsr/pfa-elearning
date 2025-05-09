@@ -2,9 +2,7 @@ package com.elearning.model;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "resultat")
@@ -21,57 +19,27 @@ public class Resultat {
 
     private String statut;
 
+    // ← liaison obligatoire vers un étudiant
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "etudiant_id", nullable = false)
+    private User etudiant;
+
     public Resultat() {}
 
-    public Resultat(float score, Date datePassage, String statut) {
-        this.score = score;
-        this.datePassage = datePassage;
-        this.statut = statut;
-    }
+    // getters & setters...
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
+    public float getScore() { return score; }
+    public void setScore(float score) { this.score = score; }
 
-    public int getId() {
-        return id;
-    }
+    public Date getDatePassage() { return datePassage; }
+    public void setDatePassage(Date datePassage) { this.datePassage = datePassage; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getStatut() { return statut; }
+    public void setStatut(String statut) { this.statut = statut; }
 
-    public float getScore() {
-        return score;
-    }
+    public User getEtudiant() { return etudiant; }
+    public void setEtudiant(User etudiant) { this.etudiant = etudiant; }
 
-    public void setScore(float score) {
-        this.score = score;
-    }
-
-    public Date getDatePassage() {
-        return datePassage;
-    }
-
-    public void setDatePassage(Date datePassage) {
-        this.datePassage = datePassage;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
-
-
-    public float calculerScore() {
-        return score;
-    }
-
-    public boolean estReussi() {
-        return score >= 10.0f;
-    }
-
-    public String afficherDetails() {
-        return "Résultat : " + score + " - " + statut + " le " + datePassage;
-    }
 }

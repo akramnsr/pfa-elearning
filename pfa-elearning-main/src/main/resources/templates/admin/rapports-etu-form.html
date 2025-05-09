@@ -7,15 +7,30 @@
     </title>
 </head>
 <body>
-<h1 th:text="${rapportEtu.id} != null ? 'Modifier Rapport' : 'Créer Rapport'">
-    Rapport étudiant
-</h1>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<h1 th:text="${rapportEtu.id} != null ? 'Modifier Rapport' : 'Créer Rapport'">Rapport étudiant</h1>
 
 <form th:object="${rapportEtu}"
       th:action="${rapportEtu.id} == null
           ? @{/admin/rapports-etu}
           : @{/admin/rapports-etu/{id}(id=${rapportEtu.id})}"
       method="post">
+
+    <!-- Sélection de l'étudiant -->
+    <div>
+        <label for="etudiant">Étudiant :</label>
+        <select id="etudiant" th:field="*{etudiant.id}" required>
+            <option
+                    th:each="u : ${etudiants}"
+                    th:value="${u.id}"
+                    th:text="${u.nom + ' ' + u.prenom}"
+                    th:selected="${etudiant != null and u.id == etudiant.id}">
+                Nom et Prénom
+            </option>
+        </select>
+    </div>
+
 
     <!-- Contenu du rapport -->
     <div>
@@ -26,22 +41,19 @@
     <!-- Date de soumission -->
     <div>
         <label for="dateSoumission">Date de soumission :</label>
-        <input
-                id="dateSoumission"
-                type="date"
-                th:field="*{dateSoumission}"
-                required />
+        <input id="dateSoumission"
+               type="date"
+               th:field="*{dateSoumission}"
+               required />
     </div>
 
-    <!-- Commentaire du formateur -->
+    <!-- Commentaire formateur -->
     <div>
         <label for="commentaireFormateur">Commentaire formateur :</label>
-        <textarea
-                id="commentaireFormateur"
-                th:field="*{commentaireFormateur}"></textarea>
+        <textarea id="commentaireFormateur"
+                  th:field="*{commentaireFormateur}"></textarea>
     </div>
 
-    <!-- Bouton -->
     <button type="submit"
             th:text="${rapportEtu.id} != null ? 'Mettre à jour' : 'Créer'">
         Valider

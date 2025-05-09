@@ -5,11 +5,19 @@
     <title th:text="${user.id} == null ? 'Créer Utilisateur' : 'Modifier Utilisateur'">Utilisateur</title>
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
 <h1 th:text="${user.id} == null ? 'Créer Utilisateur' : 'Modifier Utilisateur'"></h1>
 
-<form th:action="@{/admin/users}"
-      th:object="${user}"
+<form th:object="${user}"
+      th:action="${user.id} == null
+          ? @{/admin/users}
+          : @{/admin/users/{id}(id=${user.id})}"
       method="post">
+
+    <!-- id caché pour l'update -->
+    <input type="hidden" th:if="${user.id != null}" th:field="*{id}"/>
+
     <div>
         <label>Nom</label>
         <input type="text" th:field="*{nom}" required/>
@@ -28,6 +36,7 @@
                th:field="*{motDePasse}"
                th:attr="required=${user.id == null}"/>
     </div>
+
     <button type="submit"
             th:text="${user.id} == null ? 'Créer' : 'Enregistrer'">Valider</button>
 </form>

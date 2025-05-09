@@ -5,6 +5,8 @@
     <title>Liste des Formations</title>
 </head>
 <body th:inline="javascript">
+<div th:replace="fragments/navbar :: navbar"></div>
+
 <h1>Formations</h1>
 <a th:href="@{/admin/formations/nouveau}"> Nouvelle formation</a>
 <ul>

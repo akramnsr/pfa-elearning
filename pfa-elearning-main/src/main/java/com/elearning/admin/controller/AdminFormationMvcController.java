@@ -42,9 +42,12 @@ public class AdminFormationMvcController {
 
     @GetMapping("/{id}/modifier")
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("formation", service.findById(id));
+        Formation formation = service.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Formation introuvable pour l'ID " + id));
+        model.addAttribute("formation", formation);
         return "admin/formation-form";
     }
+
 
     @GetMapping("/{id}/confirmer-suppression")
     public String afficherConfirmationSuppression(@PathVariable Long id, Model model) {

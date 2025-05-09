@@ -18,7 +18,7 @@ public class RapportEtuDto {
         this.commentaire = commentaire;
     }
 
-    public int getId() {
+    public long getId() {
         return Math.toIntExact(id);
     }
     public void setId(Long id) {
